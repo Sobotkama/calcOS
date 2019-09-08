@@ -1,5 +1,21 @@
+/**
+ * @file img.h
+ * @author Martin Sobotka (sobotkama@gmail.com)
+ * @brief Contains our bitmaps
+ * @version 0.1
+ * @date 2019-09-08
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include <pgmspace.h>
 
+
+/**
+ * @brief our logo
+ * 
+ */
 const unsigned char logo [] PROGMEM = {
   // 'svlab, 128x296px
   0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 

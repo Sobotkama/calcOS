@@ -1,3 +1,16 @@
+/**
+ * @file main.cpp
+ * @brief Main file.
+ * @details This is our main file.
+ * @authors Martin Sobotka (sobotkama@gmail.com)
+ * Adam
+ * @version 0.1
+ * @date 2019-09-08
+ * 
+ * @copyright Copyright (c) 2019
+ * 
+ */
+
 #include <Arduino.h>
 #define ENABLE_GxEPD2_GFX 0
 
@@ -49,6 +62,10 @@ void loop() {
   }
 }
 
+/**
+ * @brief Shows our logo.
+ * 
+ */
 void showLogo() {
   display.setFullWindow();
   //bool m = display.mirror(true);
