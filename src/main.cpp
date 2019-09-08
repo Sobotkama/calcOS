@@ -21,7 +21,8 @@
 #include "img.h"
 GxEPD2_BW<GxEPD2_290, GxEPD2_290::HEIGHT> display(GxEPD2_290(/*CS=5*/ SS, /*DC=*/ 17, /*RST=*/ 16, /*BUSY=*/ 4));
 
-
+void showLogo();
+void prepare();
 
 
 void setup()
