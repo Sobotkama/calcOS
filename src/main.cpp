@@ -15,7 +15,6 @@
 #define ENABLE_GxEPD2_GFX 0
 
 #include <GxEPD2_BW.h>
-#include <GxEPD2_3C.h>
 #include <Fonts/FreeMonoBold9pt7b.h>
 #include <Fonts/Picopixel.h>
 #include "img.h"
@@ -43,19 +42,25 @@ void setup()
 
 
 void loop() {
+  int ry;
+  char cstr[16];
+  itoa(0,cstr,10);
+  display.setFont(&FreeMonoBold9pt7b);
+  display.setTextColor(GxEPD_BLACK);
   for (int i = 0; i < 100; i++) {
     
-    char cstr[16];
-    itoa(i, cstr, 10);
-
-    display.setFont(&FreeMonoBold9pt7b);
-    display.setTextColor(GxEPD_BLACK);
-    display.display(true);
     int16_t tbx, tby; uint16_t tbw, tbh;
     display.getTextBounds(cstr, 0, 0, &tbx, &tby, &tbw, &tbh);
     uint16_t utx = ((display.width() - tbw) ) - tbx;
     uint16_t uty = ((display.height() / 4) * 3 - tbh / 2) - tby;
-    display.fillRect(utx + tbx, uty - tbh - tbh, tbw, tbh, GxEPD_WHITE);
+    Serial.println(tbh);
+    ry = uty - tbh;
+    display.fillRect(utx + tbx, ry, tbw, tbh, GxEPD_WHITE);
+    itoa(i, cstr, 10);
+    display.getTextBounds(cstr, 0, 0, &tbx, &tby, &tbw, &tbh);
+    utx = ((display.width() - tbw) ) - tbx;
+    uty = ((display.height() / 4) * 3 - tbh / 2) - tby;
+    
     display.setCursor(utx, uty);
     display.print(cstr);
     display.display(true);
@@ -79,8 +84,8 @@ void showLogo() {
 
 
 const char Hello[] = "Hello";
-const char World[] = "World" ;
-const char ping[] = "boom wifi on (not really)";
+const char World[] = "There" ;
+const char ping[] = "General Kenobi";
 
 void prepare() {
   display.fillScreen(GxEPD_WHITE);
