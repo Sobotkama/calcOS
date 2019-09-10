@@ -18,3 +18,4 @@ void showLogo();
 void prepare();
 void setupDisplay();
 void displayLoop( void * parameter );
+void eraseText(String text, uint16_t x, uint16_t y, const GFXfont *font, uint16_t color);
