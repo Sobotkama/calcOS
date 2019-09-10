@@ -38,7 +38,7 @@ void showLogo()
      */
     display.fillScreen(GxEPD_WHITE);
     display.drawInvertedBitmap(0, 0, logo, display.epd2.WIDTH, display.epd2.HEIGHT, GxEPD_BLACK);
-    display.display();
+    display.display(false);
     delay(2000);
 }
 
