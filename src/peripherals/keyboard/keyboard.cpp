@@ -10,31 +10,40 @@
  */
 
 #include <Arduino.h>
-int KO0 = 35;
-int KO1 = 32;
-int KO2 = 33;
-int KO3 = 25;
-int KI0 = 26;
-int KI1 = 27;
-int KI2 = 14;
-int KI3 = 12;
-pinMode(KO0, INPUT);
-pinMode(KO1, INPUT);
-pinMode(KO2, INPUT);
-pinMode(KO3, INPUT);
-pinMode(KI0, OUTPUT);
-pinMode(KI1, OUTPUT);
-pinMode(KI2, OUTPUT);
-pinMode(KI3, OUTPUT);
+#include "keyboard.h"
+void keyInit()
+{
 
+bool keyField [64];
+}
+int kOut [4] = {35,32,33,26};
+int kInp [4] = {26,27,14,12};
+    pinMode(kOut[0], INPUT);
+    pinMode(kOut[1], INPUT);
+    pinMode(kOut[2], INPUT);
+    pinMode(kOut[3], INPUT);
+    pinMode(kInp[0], OUTPUT);
+    pinMode(kInp[1], OUTPUT);
+    pinMode(kInp[2], OUTPUT);
+    pinMode(kInp[3], OUTPUT);
 
-
-    void keyRead(void *parameter)
+}
+void keyLoad(void *parameter)
 {
     pinMode()
 
         for (;;)
     {
-        digitalWrite()
+     for (int out=0; out<16;out++){
+         for (i=0,i<4,i++){
+            bool bitStatus = (out >> i) &1;
+            digitalWrite(kInp[i],bitStatus);
+         }
+         for(int in=0; in<4,in++){
+             keyFiled [out*4+in] = digitalRead(kInp[in]);
+         }
+     }   
     }
+
+*    }
 }

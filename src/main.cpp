@@ -27,6 +27,10 @@ void setup()
       NULL,      /* Parameter passed as input of the task */
       2,         /* Priority of the task. */
       NULL);     /* Task handle. */
+      keyInit();
+      keyRead();
+      
+
 }
 
 void loop()

@@ -8,3 +8,5 @@
  * @copyright Copyright (c) 2019
  * 
  */
+void keyInit();
+void keyRead();
