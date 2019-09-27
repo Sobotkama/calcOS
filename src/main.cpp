@@ -19,9 +19,10 @@ void setup()
 {
   Serial.begin(115200);
   Serial.println();
-  setupDisplay();
+  Display display;
+  display.startDisplay();
   xTaskCreate(
-      displayLoop,   /* Task function. */
+      display.loop,   /* Task function. */
       "displayLoop", /* String with name of task. */
       10000,     /* Stack size in bytes. */
       NULL,      /* Parameter passed as input of the task */
@@ -29,11 +30,10 @@ void setup()
       NULL);     /* Task handle. */
       keyInit();
       keyRead();
-      
 
 }
 
 void loop()
 {
-  
+  display.showLogo();
 }

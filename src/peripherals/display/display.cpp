@@ -11,16 +11,20 @@
 #include <Arduino.h>
 #include "display.h"
 #include "debug/log.h"
-GxEPD2_BW<GxEPD2_290, GxEPD2_290::HEIGHT> display(GxEPD2_290(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4));
+
 
 /**
  * @brief Initialises display
  * 
  */
-void setupDisplay()
-{
-    display.init(115200);
+Display::Display() : paper(GxEPD2_290(/*CS=5*/ SS, /*DC=*/17, /*RST=*/16, /*BUSY=*/4)){
+    dlog("hello");
+    paper.init(115200);
     Serial.println(F("display inited"));
+    };
+
+void Display::startDisplay()
+{   
     showLogo();
     prepare();
 }
@@ -29,16 +33,16 @@ void setupDisplay()
  * @brief Shows our logo.
  * 
  */
-void showLogo()
+void Display::showLogo()
 {
-    display.setFullWindow();
+    paper.setFullWindow();
     /**
      * @brief Display stays black otherwise
      * 
      */
-    display.fillScreen(GxEPD_WHITE);
-    display.drawInvertedBitmap(0, 0, logo, display.epd2.WIDTH, display.epd2.HEIGHT, GxEPD_BLACK);
-    display.display(false);
+    paper.fillScreen(GxEPD_WHITE);
+    paper.drawInvertedBitmap(0, 0, logo, paper.epd2.WIDTH, paper.epd2.HEIGHT, GxEPD_BLACK);
+    paper.display(false);
     delay(2000);
 }
 
@@ -47,43 +51,43 @@ void showLogo()
  * @details Currently also shows a Hello There
  * 
  */
-void prepare()
+void Display::prepare()
 {
     const char Hello[] PROGMEM = "Hello";
     const char World[] PROGMEM = "There";
     const char ping[] PROGMEM  = "General Kenobi";
-    display.fillScreen(GxEPD_WHITE);
-    display.setRotation(1);
-    display.setFont(&FreeMono9pt7b);
-    display.setTextColor(GxEPD_BLACK);
-    //display.display(true);
-    display.drawFastHLine(0, 8, 296, GxEPD_BLACK);
-    //display.display(true);
+    paper.fillScreen(GxEPD_WHITE);
+    paper.setRotation(1);
+    paper.setFont(&FreeMono9pt7b);
+    paper.setTextColor(GxEPD_BLACK);
+    //paper.display(true);
+    paper.drawFastHLine(0, 8, 296, GxEPD_BLACK);
+    //paper.display(true);
     int16_t tbx, tby;
     uint16_t tbw, tbh;
-    display.getTextBounds(Hello, 0, 0, &tbx, &tby, &tbw, &tbh);
-    uint16_t utx = ((display.width() - tbw)) - tbx;
-    uint16_t uty = ((display.height() / 4) - tbh / 2) - tby;
-    display.setCursor(utx, uty);
-    display.print(Hello);
-    //display.display(true);
+    paper.getTextBounds(Hello, 0, 0, &tbx, &tby, &tbw, &tbh);
+    uint16_t utx = ((paper.width() - tbw)) - tbx;
+    uint16_t uty = ((paper.height() / 4) - tbh / 2) - tby;
+    paper.setCursor(utx, uty);
+    paper.print(Hello);
+    //paper.display(true);
 
     //delay(100);
-    display.getTextBounds(World, 0, 0, &tbx, &tby, &tbw, &tbh);
-    utx = ((display.width() - tbw)) - tbx;
-    uty = ((display.height() / 4) * 2 - tbh / 2) - tby;
-    display.setCursor(utx, uty);
-    display.print(World);
-    //display.display(true);
+    paper.getTextBounds(World, 0, 0, &tbx, &tby, &tbw, &tbh);
+    utx = ((paper.width() - tbw)) - tbx;
+    uty = ((paper.height() / 4) * 2 - tbh / 2) - tby;
+    paper.setCursor(utx, uty);
+    paper.print(World);
+    //paper.display(true);
 
     //delay(100);
-    display.setFont(&Picopixel);
-    display.getTextBounds(ping, 0, 0, &tbx, &tby, &tbw, &tbh);
-    utx = ((display.width() - tbw)) - tbx;
+    paper.setFont(&Picopixel);
+    paper.getTextBounds(ping, 0, 0, &tbx, &tby, &tbw, &tbh);
+    utx = ((paper.width() - tbw)) - tbx;
     uty = tbh;
-    display.setCursor(utx, uty);
-    display.print(ping);
-    display.display(false);
+    paper.setCursor(utx, uty);
+    paper.print(ping);
+    paper.display(false);
 }
 /**
  * @brief Erases text from the display
@@ -95,12 +99,12 @@ void prepare()
  * @param font original text font
  * @param color original text color
  */
-void eraseText(String text, uint16_t x, uint16_t y, const GFXfont *font, uint16_t color)
+void Display::eraseText(String text, uint16_t x, uint16_t y, const GFXfont *font, uint16_t color)
 {
-    display.setFont(font);
-    display.setTextColor(~color);
-    display.setCursor(x, y);
-    display.print(text);
+    paper.setFont(font);
+    paper.setTextColor(~color);
+    paper.setCursor(x, y);
+    paper.print(text);
 }
 
 /**
@@ -109,7 +113,7 @@ void eraseText(String text, uint16_t x, uint16_t y, const GFXfont *font, uint16_
  * 
  * @param mandatory parameter to be a valid task
  */
-void displayLoop(void *parameter)
+void Display::displayLoop(void *parameter)
 {
     const GFXfont *font = &FreeMono9pt7b;
     uint16_t color = GxEPD_BLACK;
@@ -117,21 +121,21 @@ void displayLoop(void *parameter)
     int16_t tbx, tby;
     uint16_t tbw, tbh;
     String ptext;
-    display.setFont(font);
-    display.setTextColor(GxEPD_BLACK);
+    paper.setFont(font);
+    paper.setTextColor(GxEPD_BLACK);
     for (;;) //forever
     {
         for (int i = 0; i < 100; i++)
         {
             eraseText(ptext, x, y, font, color);
-            display.setTextColor(color);
+            paper.setTextColor(color);
             ptext = String(i);
-            display.getTextBounds(ptext, 0, 0, &tbx, &tby, &tbw, &tbh);
-            x = ((display.width() - tbw)) - tbx;
-            y = ((display.height() / 4) * 3 - tbh / 2) - tby;
-            display.setCursor(x, y);
-            display.print(ptext);
-            display.display(true);
+            paper.getTextBounds(ptext, 0, 0, &tbx, &tby, &tbw, &tbh);
+            x = ((paper.width() - tbw)) - tbx;
+            y = ((paper.height() / 4) * 3 - tbh / 2) - tby;
+            paper.setCursor(x, y);
+            paper.print(ptext);
+            paper.display(true);
             Serial.println(ptext);
             vTaskDelay(1);
         }
